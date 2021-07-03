@@ -11,8 +11,7 @@ cache['lastUpdate']='';
 let curentDay=()=>{
     let today = new Date();
         let date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
-        let time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
-        let dateTime = date+' '+time;
+        let dateTime = date;
         return dateTime;
 }
 const weatherController=(req,res)=>{
@@ -28,7 +27,7 @@ const weatherController=(req,res)=>{
     if(lat && lon && lat.length!==0 && lon.length!==0){
         if(cache.data.length>0){
             forecast=cache.data.map(el=> new Forecast(el));
-            forecast.push({lastUpdate:cache.lastUpdate});
+            forecast.push({lastUpdate:cache.lastUpdate===""}?{lastUpdate:curentDay()}:{lastUpdate:cache.lastUpdate});
             console.log('======== data from cache =========');
             res.json(forecast);
         }else{

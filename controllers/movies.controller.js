@@ -10,8 +10,7 @@ cache['lastUpdate']='';
 let curentDay=()=>{
     let today = new Date();
         let date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
-        let time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
-        let dateTime = date+' '+time;
+        let dateTime = date;
         return dateTime;
 }
 const moviesController=(req,res)=>{
@@ -23,10 +22,10 @@ const moviesController=(req,res)=>{
         cache.lastUpdate=curentDay();
     },86400000);
     try{
-    if(query && query.length!=0){
+    if(query && query.length!==0 ){
         if(cache.data.length>0){
             moviesArray=cache.data.map(el=> new Movies(el));
-            moviesArray.push({lastUpdate:cache.lastUpdate});
+            moviesArray.push({lastUpdate:cache.lastUpdate===""}?{lastUpdate:curentDay()}:{lastUpdate:cache.lastUpdate});
             console.log('======== data from cache =========');
             res.json(moviesArray); 
         }else{
